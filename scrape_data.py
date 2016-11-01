@@ -81,4 +81,3 @@ if __name__ == '__main__':
     #     list_df.append(df_country)
     df = full_df()
     df.to_csv('data/gov.csv')
-    
