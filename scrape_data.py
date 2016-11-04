@@ -27,6 +27,7 @@ def make_df(df, soup):
     for i in range(2, 33):
         first = table[1].findChildren('li')[i]
         indicator = first.findChildren('div')[0].text.strip().split()[0]
+        description = first.findChildren('div')[0].text.strip()
         rating = first.findChildren('div')[1].text.strip()
         df["m1_"+indicator]=rating
     second = table[1].findChildren('li')[33]
