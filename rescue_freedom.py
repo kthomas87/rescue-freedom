@@ -27,11 +27,8 @@ def main():
 
 if __name__ == '__main__':
     df = main()
-    df_new = df.drop(['country', 'credit_rating', 'population', 'estimated_numb'], 1)
-    df_new = df_new.dropna()
-    # y = df_new.pop('estimated_perc_pop').values
-    # X = df_new.values
-    #
-    # X_train, X_test, y_train, y_test = train_test_split(X, y)
-    # rf = RandomForestClassifier(n_estimators=100, oob_score=True)
-    # rf.fit(X_train, y_train)
+    df_ngo = pd.read_csv('data/num_ngos.csv')
+    df_new = pd.merge(df, df_ngo, how = 'outer', on='country')
+    df_new['num_NGOs']=df_new['num_NGOs'].fillna(0)
+    df_new['num_NGOs'][156]=5.0
+    df_new['support_rate']= df_new['num_NGOs']/df_new['estimated_numb']
