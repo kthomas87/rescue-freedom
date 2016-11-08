@@ -81,3 +81,5 @@ if __name__ == '__main__':
     #     list_df.append(df_country)
     df = full_df()
     df.to_csv('data/gov.csv')
+    df_ngo = pd.read_csv('data/num_ngos.csv')
+    df_new = pd.merge(df, df_ngo, how = 'outer', on='country')

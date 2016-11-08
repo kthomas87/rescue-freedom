@@ -36,22 +36,12 @@ def make_df(df, soup):
         indicator = row.findChildren('div')[0].text.strip().split()[0]
         rating = row.findChildren('div')[1].text.strip()
         df["m2_"+indicator]=rating
-    for i in range(69, 79):
-        third = table[1].findChildren('li')[i]
-        indicator = third.findChildren('div')[0].text.strip().split()[0]
-        rating = third.findChildren('div')[1].text.strip()
-        df["m3_"+indicator]=rating
     for i in range(81, 100):
         third = table[1].findChildren('li')[i]
         indicator = third.findChildren('div')[0].text.strip().split()[0]
         rating = third.findChildren('div')[1].text.strip()
         df["m4_"+indicator]=rating
-    for i in range(102, 108):
-        third = table[1].findChildren('li')[i]
-        indicator = third.findChildren('div')[0].text.strip().split()[0]
-        rating = third.findChildren('div')[1].text.strip()
-        df["m5_"+indicator]=rating
-    return df
+
 
 def full_df():
     list_df = []
