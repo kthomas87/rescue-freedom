@@ -4,6 +4,7 @@ from pandas.tools.plotting import scatter_matrix
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from mpl_toolkits.mplot3d import Axes3D
+import matplotlib
 
 def load_data():
     prev_df = pd.read_csv('../../documents/prevelence.csv', thousands=',')
@@ -45,27 +46,12 @@ def kmeans_clustering(x):
     return kmeans.labels_
 
 
-def plot(df):
-    fig = plt.figure(figsize=(10, 10))
+def plot(df, label):
+    fig = plt.figure(figsize=(8, 8))
+    colors = ['b', 'k', 'g', 'r', 'orange', 'purple', 'yellow', 'magenta']
     ax = fig.add_subplot(111, projection='3d')
-    zero=df[df['labels']==0]
-    one=df[df['labels']==1]
-    two=df[df['labels']==2]
-    three=df[df['labels']==3]
-    four=df[df['labels']==4]
-    five=df[df['labels']==5]
-    six=df[df['labels']==6]
-    seven=df[df['labels']==7]
-    ax.scatter(zero['gov_effort'], zero['ngo_effort'], zero['vul_mean'], c='r', s = 40)
-    ax.scatter(one['gov_effort'], one['ngo_effort'], one['vul_mean'], c='b', s = 40 )
-    ax.scatter(one['gov_effort'], one['ngo_effort'], one['vul_mean'], c='b', s = 40)
-    ax.scatter(two['gov_effort'], two['ngo_effort'], two['vul_mean'], c='k', s = 40)
-    ax.scatter(three['gov_effort'], three['ngo_effort'], three['vul_mean'], c='g', s = 40)
-    ax.scatter(four['gov_effort'], four['ngo_effort'], four['vul_mean'], c='purple', s = 40)
-    ax.scatter(five['gov_effort'], five['ngo_effort'], five['vul_mean'], c='yellow', s = 40)
-    ax.scatter(six['gov_effort'], six['ngo_effort'], six['vul_mean'], c='orange', s = 40)
-    ax.scatter(seven['gov_effort'], seven['ngo_effort'], seven['vul_mean'], c='orange', s = 40)
-    plt.show()
+    ax.scatter(df['gov_effort'], df['ngo_effort'], df['civil_pol_protect'], c=label, cmap=matplotlib.colors.ListedColormap(colors), s = 40)
+    plt.savefig('data/data.png')
 
 
 if __name__ == '__main__':
@@ -77,9 +63,10 @@ if __name__ == '__main__':
     df['gov_effort']= df['sum']/df['ss_per_100000']
     df['ngo_effort']= df['num_NGOs']/df['ss_per_100000']
     df['vul_mean'] = (df['civil_pol_protect']+df['soc_health_eco_rigths']+df['security']+df['refugee_and_conflict'])/4.
+    #df['vul_mean'] = df['vul_mean']*df['ss_per_100000']
     df = df.dropna()
     df = df[df.country != 'United States']
-    x = df[['gov_effort', 'ngo_effort', 'vul_mean']].values
+    x = df[['gov_effort', 'ngo_effort', 'civil_pol_protect']].values
     label = kmeans_clustering(x)
     df['labels']=label
-    plot(df)
+    plot(df, label)
