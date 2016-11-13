@@ -51,11 +51,12 @@ def kmeans_clustering(x):
 def plot(df, label):
     fig = plt.figure(figsize=(8, 8))
     ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(df['ngo_effort'], df['gov_effort'], df['vul_mean'], c=label.astype(np.float), s = df['ss_per_100000'])
-    ax.set_title('Visualization of Country clusters')
-    ax.set_xlabel("NGO Effort")
-    ax.set_ylabel("Government Effort")
-    ax.set_zlabel('Vulnerabilty measures')
+    ax.scatter(df['gov_effort'], df['ngo_effort'], df['vul_mean'], c=label.astype(np.float), s=df['ss_per_100000'])
+    ax.set_title('Visualization of Country clusters', fontsize=25)
+    ax.set_xlabel("NGO Effort", fontsize=18)
+    ax.set_ylabel("Government Effort", fontsize=18)
+    ax.set_zlabel('Vulnerabilty measures', fontsize=18)
+    plt.savefig('data/2d_with_us2.png');
     plt.show()
     # pickle.dump(fig, file('FigureObject.fig.pickle', 'wb'))
 
@@ -141,7 +142,7 @@ if __name__ == '__main__':
     df['vul_mean'] = (df['civil_pol_protect']+df['soc_health_eco_rigths']+df['security']+df['refugee_and_conflict'])/4.
     #df['vul_mean'] = df['vul_mean']*df['ss_per_100000']
     df = df.dropna()
-    #df = df[df.country != 'United States']
+    df = df[df.country != 'United States']
     X = df[['gov_effort', 'ngo_effort', 'vul_mean']].values
     label = kmeans_clustering(X)
     df['labels']=label

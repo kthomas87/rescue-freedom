@@ -9,7 +9,9 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-
+app.route('/map')
+def map():
+    return render_template('world.html')
 
 
 if __name__ == '__main__':

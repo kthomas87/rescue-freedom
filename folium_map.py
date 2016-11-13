@@ -56,10 +56,10 @@ map = folium.Map()
 world_geo = r'data/countries.geo.json'
 map.choropleth(geo_path=world_geo, data=tf_data,
              columns=['iso_a3', 'scale'],
-             threshold_scale=[0, 4, 7, 10, 12, 13],
+             threshold_scale=[0, 5, 9, 11, 12, 13],
              key_on='feature.id',
              fill_color='YlOrRd', fill_opacity=0.7, line_opacity=0.5,
-             legend_name='Slavery Cluster(%)',
+             legend_name='Slavery Cluster',
              reset=True)
 map.save('world.html')
 # map.add_child(folium.GeoJson(data=file('data/countries.geo.json'))),
