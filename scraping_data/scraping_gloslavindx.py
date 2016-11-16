@@ -6,7 +6,7 @@ import requests
 
 
 website_keys = {}
-with open('website_keys.txt') as f:
+with open('../data/website_keys.txt') as f:
     for line in f:
         line=line.split(':')
         website_keys[line[0].strip()]=line[1].strip()

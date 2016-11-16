@@ -30,6 +30,14 @@ def main():
 def gov_df(df):
     gov_df = pd.read_csv('data/gov.csv')
     gov_df.set_index('country', drop=False, inplace=True)
+    # Drop columns that address only Labor slavery
+    drop = [col for col in gov_df.columns if 'm5' in col]
+    gov_df = gov_df.drop(drop, 1)
+    keep = ['m2_1.1.8','m2_1.2.5','m2_1.2.6']
+    drop2 = [col for col in gov_df.columns if 'm2' in col and col not in keep]
+    gov_df = gov_df.drop(drop2, 1)
+    drop3 = ['m4_1.3.2', 'm4_1.6.3', 'm4_1.6.5', 'm4_1.6.7', 'm4_1.8.1']
+    gov_df = gov_df.drop(drop3, 1)
     gov_df['sum']=gov_df.sum(axis=1)
     sum_df = gov_df[['country', 'sum']]
     df = pd.merge(sum_df, df, how='outer', on='country')
@@ -44,7 +52,7 @@ def add_region(df):
     return df
 
 def kmeans_clustering(x):
-    kmeans = KMeans(n_clusters=14, random_state=0).fit(x)
+    kmeans = KMeans(n_clusters=9, random_state=0).fit(x)
     return kmeans.labels_
 
 
@@ -61,12 +69,12 @@ def plot(df, label):
     # pickle.dump(fig, file('FigureObject.fig.pickle', 'wb'))
 
 def silhouette_plot(X):
-    range_n_clusters = [10, 11, 12, 14, 15, 16]
+    range_n_clusters = [8, 9, 10, 11, 12, 13]
 
     for n_clusters in range_n_clusters:
         # Create a subplot with 1 row and 2 columns
         fig, (ax1, ax2) = plt.subplots(1, 2)
-        fig.set_size_inches(18, 7)
+        fig.set_size_inches(16, 7)
         ax1.set_xlim([-0.1, 1])
         ax1.set_ylim([0, len(X) + (n_clusters + 1) * 10])
         clusterer = KMeans(n_clusters=n_clusters, random_state=10)
@@ -142,10 +150,12 @@ if __name__ == '__main__':
     df['vul_mean'] = (df['civil_pol_protect']+df['soc_health_eco_rigths']+df['security']+df['refugee_and_conflict'])/4.
     #df['vul_mean'] = df['vul_mean']*df['ss_per_100000']
     df = df.dropna()
-    df = df[df.country != 'United States']
+    #df = df[df.country != 'United States']
     X = df[['gov_effort', 'ngo_effort', 'vul_mean']].values
+    #silhouette_plot(X)
     label = kmeans_clustering(X)
     df['labels']=label
+
     plot(df, label)
     df[['country', 'labels']].to_csv('data/labels.csv', index=False)
     # figx = pickle.load(file('FigureObject.fig.pickle', 'rb'))
