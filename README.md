@@ -15,4 +15,4 @@
 
 # Code Walk-Through:
   To collect the data I scraped two sites, www.globalslaveryindex.org, and www.globalmodernslavery.org, both in the scraping data folder. Each of these files creates a CSV file.
-  The bulk of my analysis is done in my rescue_freedom.py file where I merge several data frames, make my clusters and plot a 3D visualization of the data. It also outputs a csv including the clusters to then be introduced to my folium_map.py file in the geographic_data folder that takes the clusters and plots them geographically. This outputs an html file that I integrate into my web app which is contained in the my_app folder.
+  Much of my work was done in the eda.py file where I merge several data frames, tested cluster sizes and plot a 3D visualization of the data. It also outputs a csv with my final dataframe to be run in the rescue_freedom.py file. Here I produced my final cluster labels created a 3D graph of my data to and output a csv introduced to my folium_map.py file in the geographic_data folder that takes the clusters and plots them geographically. This outputs an html file that I integrate into my web app which is contained in the my_app folder.
